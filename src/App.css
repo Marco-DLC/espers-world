@@ -6,21 +6,48 @@ body {
   font-family: 'Andy Bold', Arial, Helvetica, sans-serif;
 }
 .header {
-  display:flex;
+  display:grid;
+  grid-template-columns: 2fr 1fr max-content 1fr 1fr 1fr;
   color:rgb(95, 255, 95);
   text-shadow: 
   -3px -3px 0 #000,  
   3px -3px 0 #000,
  -3px  3px 0 #000,
   3px  3px 0 #000;
-  align-items: center;
-  margin:auto;
+}
+
+.header h1 {
+  grid-column: 3;
 }
 
 .icon-dryad {
   width:6em;
+  grid-column: 2;
+}
+
+.icon-dryad.reverse {
+  grid-column: 4;
 }
 
 .reverse {
   transform: scaleX(-1);
+}
+
+.sidebar-button {
+  border:rgb(49, 61, 49) solid 1px;
+  grid-column:6;
+  place-self:center;
+}
+
+.sidebar-button:hover {
+  border:rgb(95, 255, 95) solid 1px;
+}
+
+.sidebar-button:active {
+  border:rgb(45, 100, 45) solid 1px;
+  transition:none;
+}
+
+.sidebar-button:focus {
+  outline:none;
 }
