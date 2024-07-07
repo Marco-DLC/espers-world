@@ -1,7 +1,19 @@
+@font-face {
+  font-family: 'Andy Bold';
+  src: url(../public/fonts/andy-bold/andy-bold.ttf);
+}
+body {
+  font-family: 'Andy Bold', Arial, Helvetica, sans-serif;
+}
 .header {
   display:flex;
+  color:rgb(95, 255, 95);
+  text-shadow: 
+  -3px -3px 0 #000,  
+  3px -3px 0 #000,
+ -3px  3px 0 #000,
+  3px  3px 0 #000;
   align-items: center;
-  border:1px pink solid;
   margin:auto;
 }
 
