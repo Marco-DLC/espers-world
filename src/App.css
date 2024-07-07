@@ -37,6 +37,7 @@ body {
   border:rgb(49, 61, 49) solid 1px;
   grid-column:6;
   place-self:center;
+  z-index:2;
 }
 
 .sidebar-button:hover {
@@ -50,4 +51,28 @@ body {
 
 .sidebar-button:focus {
   outline:none;
+}
+
+.sidebar {
+  background-image: url(../public/images/flesh-wall.webp);
+  background-repeat: no-repeat;
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 250px;
+  height: 100%;
+  background-size: cover;
+  transition: right 0.3s ease;
+  z-index: 1;
+}
+
+.sidebar.open {
+  right:0;
+}
+
+@media (min-width:1000px) {
+  .sidebar {
+    width: 350px;
+    right: -350px;
+  }
 }
