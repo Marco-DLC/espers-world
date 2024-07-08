@@ -30,7 +30,7 @@ function Note() {
       }
     });
   };
-  
+
   const toggleVisibility = (field) => {
     setIsVisible({ ...isVisible, [field]: !isVisible[field] });
   };
@@ -39,7 +39,7 @@ function Note() {
     <div className="note">
       {isVisible.title ? (
         <p className="title" onClick={() => toggleVisibility('title')}>
-          {note.title}
+          {note.title === '' ? 'Note' : note.title}
         </p>
       ) : (
         <input
@@ -54,7 +54,7 @@ function Note() {
 
       {isVisible.note ? (
         <p className="note" onClick={() => toggleVisibility("note")}>
-          {note.note}
+          {note.note === '' ? '(Empty)' : note.note}
         </p>
       ) : (
         <input
