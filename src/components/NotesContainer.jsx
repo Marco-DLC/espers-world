@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { Component } from "react";
 
 export default function NotesContainer({ children }) {
   return (
@@ -6,40 +6,80 @@ export default function NotesContainer({ children }) {
       <h2>Notes</h2>
       <hr />
       <Note />
+      <Note />
+      <Note />
+      <Note />
+      <Note />
+      <Note />
       {children}
     </div>
   );
 }
 
-function Note() {
-  const [note, setNote] = useState({ title: "Note", note: "" });
-  const [isVisible, setIsVisible] = useState({ title: true, note: false });
+class Note extends Component {
+  constructor () {
+    super();
 
-  const handleChange = (e) => {
-    if (e.target.className === "title-input") {
-      setNote({ ...note, title: e.target.value });
-    } else {
-      setNote({ ...note, note: e.target.value });
-    }
-  };
-
-  const handleEnterKey = (field) => {
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        toggleVisibility(field);
+    this.state = {
+      note: {
+        title: 'Note',
+        note: ""
+      },
+      isVisible: {
+        title: true,
+        note: false
       }
-    });
-  };
+    }
+    
 
-  const toggleVisibility = (field) => {
-    setIsVisible({ ...isVisible, [field]: !isVisible[field] });
-  };
+    this.handleChange = this.handleChange.bind(this);
+    this.toggleVisibility = this.toggleVisibility.bind(this);
+    this.handleEnterKey = this.handleEnterKey.bind(this);
+  }
+
+  handleChange(e) {
+    if (e.target.className === "title-input") {
+      this.setState(prevState => ({
+        note: {
+         ...prevState.note, 
+         title: e.target.value
+        }
+         }));
+    } else {
+      this.setState(prevState => ({
+        note: {
+         ...prevState.note,
+          note: e.target.value
+        }
+         }));
+    }
+  }
+
+  handleEnterKey(field) {
+    return (e) => {
+      if (e.key === "Enter") {
+        this.toggleVisibility(field);
+      }
+    };
+  }
+
+  toggleVisibility(field){
+    this.setState(prevState => ({
+      isVisible: {
+       ...prevState.isVisible, 
+       [field]: !prevState.isVisible[field] 
+      }
+      }));
+  }
+
+  render() {
+    const { note, isVisible } = this.state;
 
   return (
     <div className="note">
       {isVisible.title ? (
-        <p className="title" onClick={() => toggleVisibility('title')}>
-          {note.title.trim() === '' ? 'Note' : note.title}
+        <p className="title" onClick={() => this.toggleVisibility("title")}>
+          {note.title.trim() === "" ? "Note" : note.title}
         </p>
       ) : (
         <input
@@ -47,26 +87,28 @@ function Note() {
           value={note.title}
           className="title-input"
           name="title"
-          onChange={handleChange}
-          onKeyDown={() => handleEnterKey('title')}
+          onBlur={() => this.toggleVisibility('title')}
+          onChange={this.handleChange}
+          onKeyDown={this.handleEnterKey("title")}
         />
       )}
 
       {isVisible.note ? (
-        <p className="note" onClick={() => toggleVisibility("note")}>
-          {note.note.trim() == '' ? '(Empty)' : note.note}
+        <p className="note" onClick={() => this.toggleVisibility("note")}>
+          {note.note.trim() == "" ? "(Empty)" : note.note}
         </p>
       ) : (
-        <input
-          type="text"
+        <textarea
           value={note.note}
           name="note"
           className="note-input"
           placeholder="Write your thoughts here..."
-          onChange={handleChange}
-          onKeyDown={() => handleEnterKey("note")}
-        ></input>
+          onBlur={() => this.toggleVisibility('note')}
+          onChange={this.handleChange}
+          onKeyDown={this.handleEnterKey("note")}
+        />
       )}
     </div>
   );
+}
 }
