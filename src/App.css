@@ -2,12 +2,22 @@
   font-family: 'Andy Bold';
   src: url(../public/fonts/andy-bold/andy-bold.ttf);
 }
+
 body {
   font-family: 'Andy Bold', Arial, Helvetica, sans-serif;
 }
+
+.App {
+  margin: auto;
+  display:flex;
+  flex-direction: column;
+  padding:0 .5em;
+  box-sizing: border-box;
+}
+
 .header {
   display:grid;
-  grid-template-columns: 2fr 1fr max-content 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 2fr 1fr 1fr 1fr;
   color:rgb(95, 255, 95);
   text-shadow: 
   -3px -3px 0 #000,  
@@ -18,10 +28,12 @@ body {
 
 .header h1 {
   grid-column: 3;
+  text-align: center;
 }
 
 .icon-dryad {
-  width:6em;
+  max-width: 6em;
+  align-self: center;
   grid-column: 2;
 }
 
@@ -70,6 +82,40 @@ body {
   right:0;
 }
 
+.notes-container {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.notes-container h2,
+.notes-container hr {
+  grid-column: 1 / 3;
+}
+
+.notes-container hr {
+  background-color: white;
+  height:.05em;
+  border:none;
+  margin:0 0 1em 0;
+}
+
+@media (max-width:375px) {
+  .icon-dryad {
+    max-width: 3.5em;
+  }
+
+  .header h1 {
+    font-size: 2em;
+  }
+
+  .sidebar-button {
+    font-size: .7em;
+  }
+}
+
+@media (max-width:450px) {
+
+}
 
 @media (min-width:1000px) {
   .sidebar {

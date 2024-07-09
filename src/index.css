@@ -25,7 +25,8 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  justify-content: center;
+  align-items:center;
+  flex-direction: column;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -64,5 +65,8 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+  .notes-container hr {
+    background-color: black;
   }
 }
