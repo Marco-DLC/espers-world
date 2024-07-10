@@ -1,30 +1,48 @@
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 
 export default function NotesContainer() {
-  const [allNotes, setAllNotes] = useState([
-    { id: 0, note: <Note id={0} key={0} removeNote={removeNote} /> },
-  ]);
+  const [allNotes, setAllNotes] = useState(() => {
+    const savedNotes = JSON.parse(localStorage.getItem("notes"));
+    return savedNotes || [{id:0, title: "Title", note:''}];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(allNotes));
+  }, [allNotes]);
 
   const addNote = () => {
     const newId = allNotes.length ? allNotes[allNotes.length - 1].id + 1 : 0;
-    setAllNotes((prevNotes) => [
-      ...prevNotes,
-      {
-        id: newId,
-        note: <Note key={newId} id={newId} removeNote={removeNote} />,
-      },
-    ]);
+    const newNote = { id: newId, title: "Title", note: "" };
+
+    setAllNotes((prevNotes) => [...prevNotes, newNote]);
   };
 
-  function removeNote(id) {
+  const removeNote = (id) => {
     setAllNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
-  }
+  };
+
+  const updateNote = (id, updatedNote) => {
+    setAllNotes((prevNotes) =>
+      prevNotes.map((note) =>
+        note.id === id ? { ...note, ...updatedNote } : note
+      )
+    );
+  };
 
   return (
     <div className="notes-container">
       <h2>Notes</h2>
       <hr />
-      {allNotes.map((note) => note.note)}
+      {allNotes.map((note) => (
+        <Note
+          key={note.id}
+          id={note.id}
+          title={note.title}
+          note={note.note}
+          removeNote={removeNote}
+          updateNote={updateNote}
+        />
+      ))}
       <NewNoteButton onClick={addNote} />
     </div>
   );
@@ -35,13 +53,11 @@ class Note extends Component {
     super(props);
 
     this.state = {
-      note: {
-        title: "Title",
-        note: "",
-      },
+      title: props.title,
+      note: props.note,
       isVisible: {
         title: true,
-        note: false,
+        note: true,
       },
     };
 
@@ -58,18 +74,16 @@ class Note extends Component {
   handleChange(e) {
     if (e.target.className === "title-input") {
       this.setState((prevState) => ({
-        note: {
-          ...prevState.note,
-          title: e.target.value,
-        },
+        ...prevState,
+        title: e.target.value,
       }));
+      this.props.updateNote(this.props.id, { title: e.target.value });
     } else {
       this.setState((prevState) => ({
-        note: {
-          ...prevState.note,
-          note: e.target.value,
-        },
+        ...prevState,
+        note: e.target.value,
       }));
+      this.props.updateNote(this.props.id, { note: e.target.value });
     }
   }
 
@@ -108,7 +122,7 @@ class Note extends Component {
   }
 
   render() {
-    const { note, isVisible } = this.state;
+    const { title, note, isVisible } = this.state;
 
     return (
       <div className="note">
@@ -120,12 +134,12 @@ class Note extends Component {
             className="title-p"
             onClick={() => this.toggleVisibility("title")}
           >
-            {note.title.trim() === "" ? "Title" : note.title}
+            {title.trim() === "" ? "Title" : title}
           </h3>
         ) : (
           <input
             type="text"
-            value={note.title}
+            value={title}
             className="title-input"
             ref={this.titleInputRef}
             name="title"
@@ -138,11 +152,11 @@ class Note extends Component {
 
         {isVisible.note ? (
           <p className="note-p" onClick={() => this.toggleVisibility("note")}>
-            {note.note.trim() == "" ? "(Empty)" : note.note}
+            {note.trim() == "" ? "(Empty)" : note}
           </p>
         ) : (
           <textarea
-            value={note.note}
+            value={note}
             name="note"
             className="note-input"
             ref={this.noteInputRef}
