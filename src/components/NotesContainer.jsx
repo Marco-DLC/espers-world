@@ -22,7 +22,7 @@ class Note extends Component {
 
     this.state = {
       note: {
-        title: "Note",
+        title: "Title",
         note: "",
       },
       isVisible: {
@@ -89,9 +89,9 @@ class Note extends Component {
     return (
       <div className="note">
         {isVisible.title ? (
-          <p className="title" onClick={() => this.toggleVisibility("title")}>
-            {note.title.trim() === "" ? "Note" : note.title}
-          </p>
+          <h3 className="title-p" onClick={() => this.toggleVisibility("title")}>
+            {note.title.trim() === "" ? "Title" : note.title}
+          </h3>
         ) : (
           <input
             type="text"
@@ -99,6 +99,7 @@ class Note extends Component {
             className="title-input"
             ref={this.titleInputRef}
             name="title"
+            maxLength={24}
             onBlur={() => this.toggleVisibility("title")}
             onChange={this.handleChange}
             onKeyDown={this.handleEnterKey("title")}
@@ -106,7 +107,7 @@ class Note extends Component {
         )}
 
         {isVisible.note ? (
-          <p className="note" onClick={() => this.toggleVisibility("note")}>
+          <p className="note-p" onClick={() => this.toggleVisibility("note")}>
             {note.note.trim() == "" ? "(Empty)" : note.note}
           </p>
         ) : (
