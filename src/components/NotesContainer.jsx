@@ -120,7 +120,6 @@ class Note extends Component {
             placeholder="Write your thoughts here..."
             onBlur={() => this.toggleVisibility("note")}
             onChange={this.handleChange}
-            onKeyDown={this.handleEnterKey("note")}
           />
         )}
       </div>
