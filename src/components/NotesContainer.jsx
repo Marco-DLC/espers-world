@@ -1,25 +1,38 @@
 import React, { Component, useState } from "react";
 
 export default function NotesContainer() {
-  const [allNotes, setAllNotes] = useState([<Note key='0' />]);
+  const [allNotes, setAllNotes] = useState([
+    { id: 0, note: <Note id={0} key={0} removeNote={removeNote} /> },
+  ]);
 
-  const handleAddNote = () => {
-    setAllNotes(prevNotes => [...prevNotes, <Note key={prevNotes.length} />])
+  const addNote = () => {
+    const newId = allNotes.length ? allNotes[allNotes.length - 1].id + 1 : 0;
+    setAllNotes((prevNotes) => [
+      ...prevNotes,
+      {
+        id: newId,
+        note: <Note key={newId} id={newId} removeNote={removeNote} />,
+      },
+    ]);
   };
+
+  function removeNote(id) {
+    setAllNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+  }
 
   return (
     <div className="notes-container">
       <h2>Notes</h2>
       <hr />
-      {allNotes}
-      <NewNoteButton onClick={handleAddNote}/>
+      {allNotes.map((note) => note.note)}
+      <NewNoteButton onClick={addNote} />
     </div>
   );
 }
 
 class Note extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       note: {
@@ -39,6 +52,7 @@ class Note extends Component {
     this.toggleVisibility = this.toggleVisibility.bind(this);
     this.handleEnterKey = this.handleEnterKey.bind(this);
     this.focusOnInput = this.focusOnInput.bind(this);
+    this.handleRemoveNote = this.handleRemoveNote.bind(this);
   }
 
   handleChange(e) {
@@ -68,20 +82,29 @@ class Note extends Component {
   }
 
   toggleVisibility(field) {
-    this.setState((prevState) => ({
-      isVisible: {
-        ...prevState.isVisible,
-        [field]: !prevState.isVisible[field],
-      },
-    }), () => {this.focusOnInput(field)});
+    this.setState(
+      (prevState) => ({
+        isVisible: {
+          ...prevState.isVisible,
+          [field]: !prevState.isVisible[field],
+        },
+      }),
+      () => {
+        this.focusOnInput(field);
+      }
+    );
   }
 
   focusOnInput(field) {
-    if (field === 'title' && this.titleInputRef.current) {
+    if (field === "title" && this.titleInputRef.current) {
       this.titleInputRef.current.focus();
-    } else if (field === 'note' && this.noteInputRef.current) {
+    } else if (field === "note" && this.noteInputRef.current) {
       this.noteInputRef.current.focus();
     }
+  }
+
+  handleRemoveNote() {
+    this.props.removeNote(this.props.id);
   }
 
   render() {
@@ -89,8 +112,14 @@ class Note extends Component {
 
     return (
       <div className="note">
+        <button className="remove-note-btn" onClick={this.handleRemoveNote}>
+          X
+        </button>
         {isVisible.title ? (
-          <h3 className="title-p" onClick={() => this.toggleVisibility("title")}>
+          <h3
+            className="title-p"
+            onClick={() => this.toggleVisibility("title")}
+          >
             {note.title.trim() === "" ? "Title" : note.title}
           </h3>
         ) : (
@@ -127,6 +156,10 @@ class Note extends Component {
   }
 }
 
-function NewNoteButton({onClick}) {
-  return <button className="new-note-btn" onClick={onClick}>+</button>
+function NewNoteButton({ onClick }) {
+  return (
+    <button className="new-note-btn" onClick={onClick}>
+      +
+    </button>
+  );
 }

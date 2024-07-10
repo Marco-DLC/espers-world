@@ -107,6 +107,21 @@ body {
   cursor: pointer;
 }
 
+.remove-note-btn {
+  align-self: end;
+  padding:0;
+  width:1.5em;
+  height:1.5em;
+  font-size: .9em;
+  box-sizing: border-box;
+  border-radius: 40%;
+  background-color: rgb(175, 0, 0);
+}
+
+.remove-note-btn:hover {
+  border-color: rgb(255, 72, 0);
+}
+
 .title-input {
   font-family: "Andy Bold", Arial, Helvetica, sans-serif;
   font-size:1.5em;
