@@ -80,11 +80,41 @@ body {
   background-size: cover;
   transition: right 0.3s ease;
   z-index: 1;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
 }
 
 .sidebar.open {
   right:0;
 }
+
+.delete-all-btn {
+  background-color: rgb(131, 0, 0);
+  grid-row: 3 / 4;
+  place-self:center;
+  margin-bottom:60px;
+  font-size: 1.4em;
+  border:solid 2px;
+  border-radius: 10px;
+  animation: tilt-side-to-side 1s ease-in-out infinite alternate;
+}
+
+.delete-all-btn:hover {
+  border-color:red;
+  color:red;
+}
+
+@keyframes tilt-side-to-side {
+  from {
+    transform: rotate(3deg);
+    background-color: black;
+    border-color:white ;
+  } to {
+    font-size: 1.5em;
+    background-color:rgb(131, 0, 0);
+  }
+}
+
 
 .notes-container {
   display:grid;

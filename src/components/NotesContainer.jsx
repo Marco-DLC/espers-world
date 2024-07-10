@@ -1,11 +1,6 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect } from "react";
 
-export default function NotesContainer() {
-  const [allNotes, setAllNotes] = useState(() => {
-    const savedNotes = JSON.parse(localStorage.getItem("notes"));
-    return savedNotes || [{id:0, title: "Title", note:''}];
-  });
-
+export default function NotesContainer({ allNotes, setAllNotes }) {
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(allNotes));
   }, [allNotes]);
