@@ -1,17 +1,18 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 
-export default function NotesContainer({ children }) {
+export default function NotesContainer() {
+  const [allNotes, setAllNotes] = useState([<Note key='0' />]);
+
+  const handleAddNote = () => {
+    setAllNotes(prevNotes => [...prevNotes, <Note key={prevNotes.length} />])
+  };
+
   return (
     <div className="notes-container">
       <h2>Notes</h2>
       <hr />
-      <Note />
-      <Note />
-      <Note />
-      <Note />
-      <Note />
-      <Note />
-      {children}
+      {allNotes}
+      <NewNoteButton onClick={handleAddNote}/>
     </div>
   );
 }
@@ -125,4 +126,8 @@ class Note extends Component {
       </div>
     );
   }
+}
+
+function NewNoteButton({onClick}) {
+  return <button className="new-note-btn" onClick={onClick}>+</button>
 }

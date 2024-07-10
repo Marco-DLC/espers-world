@@ -52,16 +52,20 @@ body {
   z-index:2;
 }
 
-.sidebar-button:hover {
+.sidebar-button:hover,
+.new-note-btn:hover,
+.note:hover {
   border:rgb(95, 255, 95) solid 1px;
 }
 
-.sidebar-button:active {
+.sidebar-button:active,
+.new-note-btn:active {
   border:rgb(45, 100, 45) solid 1px;
   transition:none;
 }
 
-.sidebar-button:focus {
+.sidebar-button:focus,
+.new-note-btn:focus {
   outline:none;
 }
 
@@ -98,6 +102,9 @@ body {
   border-radius: 5px;
   box-sizing: border-box;
   border:1px solid rgb(49, 61, 49);
+  background-color: #1a1a1a;
+  transition: border-color 0.25s;
+  cursor: pointer;
 }
 
 .title-input {
@@ -141,6 +148,26 @@ body {
   height:.05em;
   border:none;
   margin:0 0 1em 0;
+}
+
+.new-note-btn {
+  border-color: rgb(49, 61, 49);
+  font-size: 4em;
+  box-sizing: border-box;
+  padding:0;
+  border-radius: 50%;
+  width: 2em;
+  height:2em;
+  place-self: center;
+}
+
+.new-note-btn:hover {
+  transition: .25s;
+}
+
+.new-note-btn:active {
+  color: rgb(95, 255, 95);
+  transition: none;
 }
 
 @media (max-width:450px) {
