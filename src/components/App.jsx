@@ -28,7 +28,7 @@ function App() {
   return (
     <div className="App">
       <Header toggleSidebar={toggleSidebar} />
-      <Sidebar isOpen={isSidebarOpen} clearNotes={clearNotes} />
+      <Sidebar isOpen={isSidebarOpen} clearNotes={clearNotes} searchResults={searchResults} setSearchResults={setSearchResults} />
       <NotesContainer allNotes={allNotes} setAllNotes={setAllNotes} searchResults={searchResults} />
     </div>
   );
