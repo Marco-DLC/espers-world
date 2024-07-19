@@ -10,6 +10,7 @@ function App() {
     const savedNotes = JSON.parse(localStorage.getItem("notes"));
     return savedNotes || [{ id: 0, title: "Title", note: "" }];
   });
+  const [searchResults, setSearchResults] = useState('');
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -28,7 +29,7 @@ function App() {
     <div className="App">
       <Header toggleSidebar={toggleSidebar} />
       <Sidebar isOpen={isSidebarOpen} clearNotes={clearNotes} />
-      <NotesContainer allNotes={allNotes} setAllNotes={setAllNotes} />
+      <NotesContainer allNotes={allNotes} setAllNotes={setAllNotes} searchResults={searchResults} />
     </div>
   );
 }

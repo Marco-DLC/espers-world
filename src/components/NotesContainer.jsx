@@ -1,6 +1,10 @@
 import React, { Component, useEffect } from "react";
 
-export default function NotesContainer({ allNotes, setAllNotes }) {
+export default function NotesContainer({
+  allNotes,
+  setAllNotes,
+  searchResults,
+}) {
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(allNotes));
   }, [allNotes]);
@@ -24,11 +28,29 @@ export default function NotesContainer({ allNotes, setAllNotes }) {
     );
   };
 
+  const formatString = (string) => {
+    return string
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-zA-Z0-9 ]/g, "");
+  };
+
+  const filterBySearch = (note) => {
+    const results = formatString(searchResults);
+    const title = formatString(note.title);
+    const content = formatString(note.note);
+
+    if (
+      title.includes(results) || content.includes(results)) {
+      return note;
+    }
+  };
+
   return (
     <div className="notes-container">
       <h2>Notes</h2>
       <hr />
-      {allNotes.map((note) => (
+      {allNotes.filter(filterBySearch).map((note) => (
         <Note
           key={note.id}
           id={note.id}
